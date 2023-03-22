@@ -20,10 +20,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="73dp">
 
+                <!-- android:fontFamily="@font/source_serif_pro" -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    <!-- android:fontFamily="@font/source_serif_pro" -->
                     android:text="AFFINITY"
                     android:textColor="#000000"
                     android:textFontWeight="600"
