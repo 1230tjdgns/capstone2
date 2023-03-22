@@ -108,6 +108,12 @@ public class HomeFragment extends Fragment {
         bt_ct_bottom.setOnClickListener(new CategorySelect());
         bt_ct_top.setOnClickListener(new CategorySelect());
 
+        // 초기 카테고리 선택
+        for(int i = 0 ; i < 6 ; i++) {
+            adapter.addItem(new gridItem("","상의 브랜드", "상의 이름", "상의 가격"));
+        }
+        gv.setAdapter(adapter);
+
         bt_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
