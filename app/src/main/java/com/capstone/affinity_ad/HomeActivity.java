@@ -2,12 +2,17 @@ package com.capstone.affinity_ad;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,83 +21,64 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
+import org.checkerframework.common.subtyping.qual.Bottom;
+
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    GridViewAdapter adapter = null;
+    Fragment defaultFrag;
+    BottomNavigationView nav_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ExpandableHeightGridView gv = (ExpandableHeightGridView)findViewById(R.id.home_item_grid);
-        gv.setExpanded(true);
-        adapter = new GridViewAdapter();
+        nav_menu = findViewById(R.id.bottom_nav);
+        defaultFrag = new HomeFragment();
 
-        adapter.addItem(new gridItem("","테스트 브랜드", "테스트 상품 이름", "테스트 가격"));
-        adapter.addItem(new gridItem("","테스트 브랜드", "테스트 상품 이름", "테스트 가격"));
-        adapter.addItem(new gridItem("","테스트 브랜드", "테스트 상품 이름", "테스트 가격"));
-        adapter.addItem(new gridItem("","테스트 브랜드", "테스트 상품 이름", "테스트 가격"));
-        adapter.addItem(new gridItem("","테스트 브랜드", "테스트 상품 이름", "테스트 가격"));
-        adapter.addItem(new gridItem("","테스트 브랜드", "테스트 상품 이름", "테스트 가격"));
+        nav_menu.setSelectedItemId(R.id.home);
 
-        gv.setAdapter(adapter);
-    }
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,defaultFrag).commitAllowingStateLoss();
 
-    class GridViewAdapter extends BaseAdapter {
-        ArrayList<gridItem> items = new ArrayList<gridItem>();
+        nav_menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //리스너 적용하면 아이콘 선택시 색상이 변하지 않기 때문에 수동으로 적용
+                item.setChecked(true);
+                switch (item.getItemId()) {
+                    case R.id.home: {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new HomeFragment()).commit();
+                        return true;
+                    }
+                    case R.id.search: {
+                        //new Fragment() 대신 이동 할 프래그 클래스 적기
+                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new Fragment()).commit();
+                        return true;
+                    }
+                    case R.id.profile: {
+                        //new Fragment() 대신 이동 할 프래그 클래스 적기
+                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new Fragment()).commit();
+                        return true;
+                    }
 
-        public void addItem(gridItem item) {
-            items.add(item);
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return items.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            final Context context = viewGroup.getContext();
-            final gridItem g_items = items.get(i);
-
-            if (view == null) {
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.home_grid_item, viewGroup, false);
-
-                TextView brand = (TextView) view.findViewById(R.id.home_item_brand);
-                TextView name = (TextView) view.findViewById(R.id.home_item_name);
-                TextView price = (TextView) view.findViewById(R.id.home_item_price);
-
-                brand.setText(g_items.getBrand());
-                name.setText(g_items.getName());
-                price.setText(g_items.getPrice());
-                Log.d(TAG, "getView() - [ "+i+" ] "+g_items.getName());
-
-            } else {
-                View v = new View(context);
-                v = (View) view;
-            }
-            //각 아이템 선택 event
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, g_items.getBrand()+" - "+g_items.getName()+" - " + g_items.getPrice(), Toast.LENGTH_SHORT).show();
                 }
-            });
-            return view;
-        }
+
+                return false;
+            }
+        });
     }
+
+    //홈 화면 상단에 검색 버튼을 위한, 프래그 내부에서 상위 엑티비티의 프레임 교체에 필요한 메소드
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.mainFrame, fragment).commit();
+    }
+
+
 }
