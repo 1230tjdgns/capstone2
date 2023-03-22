@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     case R.id.search: {
                         //new Fragment() 대신 이동 할 프래그 클래스 적기
-                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new Fragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new SearchFragment()).commit();
                         return true;
                     }
                     case R.id.profile: {
