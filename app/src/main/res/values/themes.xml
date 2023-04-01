@@ -17,4 +17,7 @@
         <!-- 상단 타이틀바 제거 -->
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">24sp</item>
+    </style>
 </resources>
