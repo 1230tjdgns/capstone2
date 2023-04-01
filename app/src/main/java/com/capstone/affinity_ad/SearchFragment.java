@@ -25,12 +25,19 @@ import java.util.List;
 public class SearchFragment extends Fragment {
     //androidx.appcompat.widget.SearchView search_view;
     private List<String> list;          // 데이터를 넣은 리스트변수
+
+    private  List<String> l_brand;
+    private  List<String> l_name;
+    private  List<String> l_price;
     private ListView listView;          // 검색을 보여줄 리스트변수
 
     private GridView gridView;
     private EditText editSearch;        // 검색어를 입력할 Input 창
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
-    private ArrayList<String> arraylist;
+    private ArrayList<String> arraylistbrand;
+    private ArrayList<String> arraylistname;
+    private ArrayList<String> arraylistprice;
+   private ArrayList<String> arraylist;
 
     private androidx.appcompat.widget.SearchView searchView;
 
@@ -85,13 +92,23 @@ public class SearchFragment extends Fragment {
         searchView=frag_view.findViewById(R.id.search);
 // 리스트를 생성한다.
         list = new ArrayList<String>();
+        l_brand = new ArrayList<String>();
+        l_name = new ArrayList<String>();
+        l_price = new ArrayList<String>();
         // 검색에 사용할 데이터을 미리 저장한다.
         settingList();
         // 리스트의 모든 데이터를 arraylist에 복사한다.// list 복사본을 만든다.
         arraylist = new ArrayList<String>();
-        arraylist.addAll(list);
+        arraylistname = new ArrayList<String>();
+        arraylistbrand = new ArrayList<String>();
+        arraylistprice = new ArrayList<String>();
+        arraylistname.addAll(l_name);
+        arraylistbrand.addAll(l_brand);
+        arraylistprice.addAll(l_price);
+        arraylist.addAll(l_name);
+
         // 리스트에 연동될 아답터를 생성한다.
-        adapter = new SearchAdapter(list,container.getContext() );
+        adapter = new SearchAdapter(l_brand,l_name,l_price,container.getContext() );
         // 리스트뷰에 아답터를 연결한다.
         gridView.setAdapter(adapter);
 
@@ -132,23 +149,33 @@ public class SearchFragment extends Fragment {
     public void search(String charText) {
 
         // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
-        list.clear();
-
+        l_name.clear();
+        l_brand.clear();
+        l_price.clear();
         // 문자 입력이 없을때는 모든 데이터를 보여준다.
         if (charText.length() == 0) {
-            list.addAll(arraylist);
+            l_name.addAll(arraylistname);
+            l_brand.addAll(arraylistbrand);
+            l_price.addAll(arraylistprice);
         }
         // 문자 입력을 할때..
         else
         {
             // 리스트의 모든 데이터를 검색한다.
-            for(int i = 0;i < arraylist.size(); i++)
+            for(int i = 0;i < arraylistname.size(); i++)
             {
                 // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true를 반환한다.
-                if (arraylist.get(i).toLowerCase().contains(charText))
+                if (arraylistname.get(i).toLowerCase().contains(charText))
                 {
                     // 검색된 데이터를 리스트에 추가한다.
-                    list.add(arraylist.get(i));
+                    l_name.add(arraylistname.get(i));
+                    l_brand.add(arraylistbrand.get(i));
+                    l_price.add(arraylistprice.get(i));
+                }
+                if(arraylistbrand.get(i).toLowerCase().contains(charText)){
+                    l_name.add(arraylistname.get(i));
+                    l_brand.add(arraylistbrand.get(i));
+                    l_price.add(arraylistprice.get(i));
                 }
             }
         }
@@ -157,32 +184,35 @@ public class SearchFragment extends Fragment {
     }
     // 검색에 사용될 데이터를 리스트에 추가한다.
     private void settingList(){
-        list.add("채수빈");
-        list.add("박지현");
-        list.add("수지");
-        list.add("남태현");
-        list.add("하성운");
-        list.add("크리스탈");
-        list.add("강승윤");
-        list.add("손나은");
-        list.add("남주혁");
-        list.add("루이");
-        list.add("진영");
-        list.add("슬기");
-        list.add("이해인");
-        list.add("고원희");
-        list.add("설리");
-        list.add("공명");
-        list.add("김예림");
-        list.add("혜리");
-        list.add("웬디");
-        list.add("박혜수");
-        list.add("카이");
-        list.add("진세연");
-        list.add("1");
-        list.add("123");
-        list.add("1234");
-        list.add("창모");
-        list.add("허영지");
+        l_brand.add("1");
+        l_brand.add("박지현");
+        l_brand.add("수지");
+        l_brand.add("남태현");
+        l_brand.add("하성운");
+        l_brand.add("크리스탈");
+        l_brand.add("강승윤");
+        l_brand.add("손나은");
+        l_brand.add("남주혁");
+
+        l_name.add("루이");
+        l_name.add("12");
+        l_name.add("슬기");
+        l_name.add("이해인");
+        l_name.add("고원희");
+        l_name.add("설리");
+        l_name.add("공명");
+        l_name.add("김예림");
+        l_name.add("혜리");
+
+        l_price.add("웬디");
+        l_price.add("박혜수");
+        l_price.add("카이");
+        l_price.add("진세연");
+        l_price.add("1");
+        l_price.add("123");
+        l_price.add("1234");
+        l_price.add("창모");
+        l_price.add("허영지");
+
     }
 }

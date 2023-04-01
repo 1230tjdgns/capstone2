@@ -15,18 +15,22 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> list;
+    private List<String> lbrand;
+    private List<String> lname;
+    private List<String> lprice;
     private LayoutInflater inflate;
     private ViewHolder viewHolder;
 
-    public SearchAdapter(List<String> list, Context context){
-        this.list = list;
+    public SearchAdapter(List<String> lbrand,List<String> lname,List<String> lprice, Context context){
+        this.lbrand = lbrand;
+        this.lname = lname;
+        this.lprice = lprice;
         this.context = context;
         this.inflate = LayoutInflater.from(context);
     }
     @Override
     public int getCount() {
-        return list.size();
+        return lname.size();
     }
 
     @Override
@@ -46,15 +50,17 @@ public class SearchAdapter extends BaseAdapter {
 
             viewHolder = new ViewHolder();
             viewHolder.item_brand = (TextView) convertView.findViewById(R.id.home_item_brand);
-
+            viewHolder.item_name = (TextView) convertView.findViewById(R.id.home_item_name);
+            viewHolder.item_price = (TextView) convertView.findViewById(R.id.home_item_price);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
         // 리스트에 있는 데이터를 리스트뷰 셀에 뿌린다.
-        viewHolder.item_brand.setText(list.get(position));
-
+        viewHolder.item_brand.setText(lbrand.get(position));
+        viewHolder.item_name.setText(lname.get(position));
+        viewHolder.item_price.setText(lprice.get(position));
         return convertView;
     }
 
