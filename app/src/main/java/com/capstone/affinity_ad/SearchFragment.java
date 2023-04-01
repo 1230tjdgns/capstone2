@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class SearchFragment extends Fragment {
     //androidx.appcompat.widget.SearchView search_view;
     private List<String> list;          // 데이터를 넣은 리스트변수
     private ListView listView;          // 검색을 보여줄 리스트변수
+
+    private GridView gridView;
     private EditText editSearch;        // 검색어를 입력할 Input 창
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
     private ArrayList<String> arraylist;
@@ -77,7 +80,8 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View frag_view = inflater.inflate(R.layout.fragment_search,container,false);
         //editSearch = (EditText) frag_view.findViewById(R.id.editSearch);
-        listView = (ListView) frag_view.findViewById(R.id.listView);
+        //listView = (ListView) frag_view.findViewById(R.id.listView);
+        gridView = (GridView) frag_view.findViewById(R.id.gridView);
         searchView=frag_view.findViewById(R.id.search);
 // 리스트를 생성한다.
         list = new ArrayList<String>();
@@ -89,7 +93,7 @@ public class SearchFragment extends Fragment {
         // 리스트에 연동될 아답터를 생성한다.
         adapter = new SearchAdapter(list,container.getContext() );
         // 리스트뷰에 아답터를 연결한다.
-        listView.setAdapter(adapter);
+        gridView.setAdapter(adapter);
 
 
 //        editSearch.addTextChangedListener(new TextWatcher() {

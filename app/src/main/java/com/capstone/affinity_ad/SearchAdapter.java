@@ -45,7 +45,7 @@ public class SearchAdapter extends BaseAdapter {
             convertView = inflate.inflate(R.layout.listview,null);
 
             viewHolder = new ViewHolder();
-            viewHolder.label = (TextView) convertView.findViewById(R.id.label);
+            viewHolder.item_brand = (TextView) convertView.findViewById(R.id.home_item_brand);
 
             convertView.setTag(viewHolder);
         }else{
@@ -53,13 +53,15 @@ public class SearchAdapter extends BaseAdapter {
         }
 
         // 리스트에 있는 데이터를 리스트뷰 셀에 뿌린다.
-        viewHolder.label.setText(list.get(position));
+        viewHolder.item_brand.setText(list.get(position));
 
         return convertView;
     }
 
     class ViewHolder{
-        public TextView label;
+        public TextView item_brand;
+        public TextView item_name;
+        public TextView item_price;
     }
 
 }
