@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Affinity_ad"
         tools:targetApi="31">
         <activity
+            android:name=".rename"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
