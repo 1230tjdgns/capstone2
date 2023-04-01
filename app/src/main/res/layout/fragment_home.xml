@@ -46,10 +46,30 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="227dp"
-                android:background="#d9d9d9" />
+                android:layout_height="239.5dp"
+                >
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/banner_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#d9d9d9"
+
+                    />
+                <com.capstone.affinity_ad.CircleAnimIndicator
+                    android:id="@+id/circleAnimIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center|bottom"
+                    />
+
+            </FrameLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

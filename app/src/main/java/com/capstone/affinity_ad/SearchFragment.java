@@ -2,7 +2,6 @@ package com.capstone.affinity_ad;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,6 @@ public class SearchFragment extends Fragment {
     private EditText editSearch;        // 검색어를 입력할 Input 창
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
     private ArrayList<String> arraylist;
-
-    private androidx.appcompat.widget.SearchView searchView;
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,12 +70,12 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View frag_view = inflater.inflate(R.layout.fragment_search,container,false);
-        //editSearch = (EditText) frag_view.findViewById(R.id.editSearch);
+        editSearch = (EditText) frag_view.findViewById(R.id.editSearch);
         listView = (ListView) frag_view.findViewById(R.id.listView);
-        searchView=frag_view.findViewById(R.id.search);
 // 리스트를 생성한다.
         list = new ArrayList<String>();
         // 검색에 사용할 데이터을 미리 저장한다.
@@ -92,34 +89,21 @@ public class SearchFragment extends Fragment {
         listView.setAdapter(adapter);
 
 
-//        editSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                // input창에 문자를 입력할때마다 호출된다.
-//                // search 메소드를 호출한다.
-//                String text = editSearch.getText().toString();
-//                search(text);
-//            }
-//        });
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        editSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                search(newText);
-                return false;
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // input창에 문자를 입력할때마다 호출된다.
+                // search 메소드를 호출한다.
+                String text = editSearch.getText().toString();
+                search(text);
             }
         });
         return frag_view;
@@ -175,9 +159,9 @@ public class SearchFragment extends Fragment {
         list.add("박혜수");
         list.add("카이");
         list.add("진세연");
-        list.add("1");
-        list.add("123");
-        list.add("1234");
+        list.add("동호");
+        list.add("박세완");
+        list.add("도희");
         list.add("창모");
         list.add("허영지");
     }

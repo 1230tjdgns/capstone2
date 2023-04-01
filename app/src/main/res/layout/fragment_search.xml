@@ -9,35 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
+        <EditText
+            android:id="@+id/editSearch"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:closeIcon="@drawable/baseline_clear_24"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="신발을 검색해주세요"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-        </androidx.appcompat.widget.Toolbar>
-
-
-<!--        <EditText-->
-<!--            android:id="@+id/editSearch"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="검색어를 입력하세요."/>-->
+            android:layout_height="wrap_content"
+            android:hint="검색어를 입력하세요."/>
 
     <ListView
         android:id="@+id/listView"

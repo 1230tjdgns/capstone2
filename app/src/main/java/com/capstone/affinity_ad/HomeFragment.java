@@ -3,18 +3,35 @@ package com.capstone.affinity_ad;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
+import android.icu.text.Transliterator;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +53,10 @@ public class HomeFragment extends Fragment {
     Button bt_ct_outer;
     Button bt_ct_shoes;
     Button bt_ct_accessory;
+
+    ViewPager2 pager;
+    PagerAdapter pagerAdapter;
+    CircleAnimIndicator indicator;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -108,14 +129,54 @@ public class HomeFragment extends Fragment {
         bt_ct_bottom.setOnClickListener(new CategorySelect());
         bt_ct_top.setOnClickListener(new CategorySelect());
 
+        // 초기 카테고리 선택
+        for(int i = 0 ; i < 6 ; i++) {
+            adapter.addItem(new gridItem("","상의 브랜드", "상의 이름", "상의 가격"));
+        }
+        gv.setAdapter(adapter);
+
         bt_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((HomeActivity)getActivity()).replaceFragment(new Fragment());
             }
         });
+
+
+        int[] images = new int[] {
+                R.drawable.banner1,
+                R.drawable.banner2
+        };
+        String[] webUrls = new String[] {
+                "https://abcmart.a-rt.com/",
+                "https://www.nike.com/kr/"
+        };
+
+        indicator = frag_view.findViewById(R.id.circleAnimIndicator);
+
+        indicator.setItemMargin(15);
+        indicator.setAnimDuration(300);
+        indicator.createDotPanel(images.length,R.drawable.indicator_def,R.drawable.indicator_select);
+
+        pager = frag_view.findViewById(R.id.banner_pager);
+        pager.setOffscreenPageLimit(1);
+
+        pagerAdapter = new PagerAdapter(frag_view.getContext(), images, webUrls);
+        pager.setAdapter(pagerAdapter);
+
+        pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                indicator.selectDot(position);
+                pagerAdapter.webPageLinked.updateUrl(position);
+
+            }
+        });
+
         return frag_view;
     }
+
 
     class CategorySelect implements View.OnClickListener {
 
@@ -154,64 +215,4 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    //구글링은 무적이고 신이다 구글에서 긁어옴
-    class GridViewAdapter extends BaseAdapter {
-        ArrayList<gridItem> items = new ArrayList<gridItem>();
-
-
-        public void clearItem() {
-            items = new ArrayList<gridItem>();
-        }
-
-        public void addItem(gridItem item) {
-            items.add(item);
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return items.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            final Context context = viewGroup.getContext();
-            final gridItem g_items = items.get(i);
-
-            if (view == null) {
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.home_grid_item, viewGroup, false);
-
-                TextView brand = (TextView) view.findViewById(R.id.home_item_brand);
-                TextView name = (TextView) view.findViewById(R.id.home_item_name);
-                TextView price = (TextView) view.findViewById(R.id.home_item_price);
-
-                brand.setText(g_items.getBrand());
-                name.setText(g_items.getName());
-                price.setText(g_items.getPrice());
-                Log.d(TAG, "getView() - [ "+i+" ] "+g_items.getName());
-
-            } else {
-                View v = new View(context);
-                v = (View) view;
-            }
-            //각 아이템 선택 event
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, g_items.getBrand()+" - "+g_items.getName()+" - " + g_items.getPrice(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            return view;
-        }
-    }
 }
