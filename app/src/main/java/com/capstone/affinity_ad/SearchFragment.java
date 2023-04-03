@@ -165,15 +165,15 @@ public class SearchFragment extends Fragment{
     }
     // 검색을 수행하는 메소드
     public void search(String charText) {
-        list = settingList.getlist();
-        l_brand.addAll(list.get(0));
-        l_name.addAll(list.get(1));
-        l_price.addAll(list.get(2));
-        l_image.addAll(list.get(3));
-        arraylistname.addAll(l_name);
-        arraylistbrand.addAll(l_brand);
-        arraylistprice.addAll(l_price);
-        arraylistimage.addAll(l_image);
+//        list = settingList.getlist();
+//        l_brand.addAll(list.get(0));
+//        l_name.addAll(list.get(1));
+//        l_price.addAll(list.get(2));
+//        l_image.addAll(list.get(3));
+//        arraylistname.addAll(l_name);
+//        arraylistbrand.addAll(l_brand);
+//        arraylistprice.addAll(l_price);
+//        arraylistimage.addAll(l_image);
         // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
         l_name.clear();
         l_brand.clear();
@@ -214,16 +214,19 @@ public class SearchFragment extends Fragment{
     }
     // 검색에 사용될 데이터를 리스트에 추가한다.
     private void settingList(){
-        settingList = new SettingList(context);
+        //settingList = new SettingList(context);
 
 
-        list = settingList.getlist();
-        l_brand.addAll(list.get(0));
-        l_name.addAll(list.get(1));
-        l_price.addAll(list.get(2));
-        l_image.addAll(list.get(3));
+        //list = settingList.getlist();
+//        l_brand.addAll(list.get(0));
+//        l_name.addAll(list.get(1));
+//        l_price.addAll(list.get(2));
+//        l_image.addAll(list.get(3));
 
-
+        l_brand.addAll(settingList.l_brand);
+        l_name.addAll(settingList.l_name);
+        l_price.addAll(settingList.l_price);
+        l_image.addAll(settingList.l_image);
 
     }
 }
