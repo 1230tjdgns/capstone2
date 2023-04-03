@@ -3,6 +3,7 @@ package com.capstone.affinity_ad;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.ImageDecoder;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -36,6 +38,9 @@ public class SearchFragment extends Fragment{
     private  List<String> l_name;
     private  List<String> l_price;
     private  List<String> l_image;
+
+    private  List<String>l_id;
+
     private ListView listView;          // 검색을 보여줄 리스트변수
 
     private GridView gridView;
@@ -45,6 +50,8 @@ public class SearchFragment extends Fragment{
     private ArrayList<String> arraylistname;
     private ArrayList<String> arraylistprice;
     private ArrayList<String> arraylistimage;
+
+    private ArrayList<String> arraylistid;
    private ArrayList<String> arraylist;
 
     private androidx.appcompat.widget.SearchView searchView;
@@ -107,6 +114,7 @@ public class SearchFragment extends Fragment{
         l_name = new ArrayList<String>();
         l_price = new ArrayList<String>();
         l_image = new ArrayList<String>();
+        l_id=new ArrayList<String>();
         // 검색에 사용할 데이터을 미리 저장한다.
 
 
@@ -119,17 +127,27 @@ public class SearchFragment extends Fragment{
         arraylistbrand = new ArrayList<String>();
         arraylistprice = new ArrayList<String>();
         arraylistimage = new ArrayList<String>();
+        arraylistid=new ArrayList<String>();
         arraylistname.addAll(l_name);
         arraylistbrand.addAll(l_brand);
         arraylistprice.addAll(l_price);
         arraylistimage.addAll(l_image);
+        arraylistid.addAll(l_id);
         //arraylist.addAll(l_name);
 
         // 리스트에 연동될 아답터를 생성한다.
         adapter = new SearchAdapter(l_brand,l_name,l_price,l_image,container.getContext() );
         // 리스트뷰에 아답터를 연결한다.
         gridView.setAdapter(adapter);
-
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "여기야 : "+l_id.get(position));
+                Intent intent =new Intent(getActivity(),WebViewActivity.class);
+                intent.putExtra("id",l_id.get(position));
+                startActivity(intent);
+            }
+        });
 
 //        editSearch.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -151,6 +169,9 @@ public class SearchFragment extends Fragment{
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+
+                Log.d(TAG,"rrrrrrrrrrrrrrrrrrrrrr");
                 return false;
             }
 
@@ -161,7 +182,11 @@ public class SearchFragment extends Fragment{
                 return false;
             }
         });
+
+
+
         return frag_view;
+
     }
     // 검색을 수행하는 메소드
     public void search(String charText) {
@@ -175,12 +200,14 @@ public class SearchFragment extends Fragment{
 //        arraylistprice.addAll(l_price);
 //        arraylistimage.addAll(l_image);
         // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
+        l_id.clear();
         l_name.clear();
         l_brand.clear();
         l_price.clear();
         l_image.clear();
         // 문자 입력이 없을때는 모든 데이터를 보여준다.
         if (charText.length() == 0) {
+            l_id.addAll(arraylistid);
             l_name.addAll(arraylistname);
             l_brand.addAll(arraylistbrand);
             l_price.addAll(arraylistprice);
@@ -196,12 +223,14 @@ public class SearchFragment extends Fragment{
                 if (arraylistname.get(i).toLowerCase().contains(charText))
                 {
                     // 검색된 데이터를 리스트에 추가한다.
+                    l_id.add(arraylistid.get(i));
                     l_name.add(arraylistname.get(i));
                     l_brand.add(arraylistbrand.get(i));
                     l_price.add(arraylistprice.get(i));
                     l_image.add(arraylistimage.get(i));
                 }
                 else if(arraylistbrand.get(i).toLowerCase().contains(charText)){
+                    l_id.add(arraylistid.get(i));
                     l_name.add(arraylistname.get(i));
                     l_brand.add(arraylistbrand.get(i));
                     l_price.add(arraylistprice.get(i));
@@ -222,7 +251,7 @@ public class SearchFragment extends Fragment{
 //        l_name.addAll(list.get(1));
 //        l_price.addAll(list.get(2));
 //        l_image.addAll(list.get(3));
-
+        l_id.addAll(settingList.l_id);
         l_brand.addAll(settingList.l_brand);
         l_name.addAll(settingList.l_name);
         l_price.addAll(settingList.l_price);
