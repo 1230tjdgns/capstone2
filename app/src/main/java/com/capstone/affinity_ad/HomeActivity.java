@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +32,10 @@ import org.checkerframework.common.subtyping.qual.Bottom;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
-
+//    FragmentManager manager = getSupportFragmentManager();
+//    FragmentTransaction transaction = manager.beginTransaction();
+//    Bundle bundle = new Bundle();
+    //Context context=getApplicationContext();
     Fragment defaultFrag;
     BottomNavigationView nav_menu;
 
@@ -62,7 +66,10 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     case R.id.search: {
                         //new Fragment() 대신 이동 할 프래그 클래스 적기
-                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new Fragment()).commit();
+//                        bundle.putSerializable("list", settingList.getlist());
+//                        SearchFragment searchFragment=new SearchFragment();
+//                        searchFragment.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,new SearchFragment()).commit();
                         return true;
                     }
                     case R.id.profile: {
