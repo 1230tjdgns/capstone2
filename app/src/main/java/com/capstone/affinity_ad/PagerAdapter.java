@@ -55,6 +55,7 @@ class PagerAdapter extends RecyclerView.Adapter<PagerAdapter.ViewHolder> {
         }
     }
 
+
     class WebPageLinked implements View.OnClickListener {
         String[] webUrls;
         Intent webIntent;

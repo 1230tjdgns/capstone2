@@ -20,6 +20,7 @@
         android:text="브랜드"
         android:textFontWeight="600"
         android:textSize="15dp"
+        android:ellipsize="end"
         />
 
     <!-- android:fontFamily="@font/inter_medium" -->
@@ -29,6 +30,8 @@
         android:layout_height="wrap_content"
         android:text="상품 이름"
         android:textSize="15dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         />
     <!-- android:fontFamily="@font/inter_bold" -->
     <TextView
@@ -38,6 +41,7 @@
         android:text="가격"
         android:textFontWeight="700"
         android:textSize="15dp"
+        android:ellipsize="end"
         />
 
 </LinearLayout>
