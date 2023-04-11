@@ -3,6 +3,8 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        //원형이미지를위한거
+        maven { url 'https://jitpack.io' }
     }
 }
 dependencyResolutionManagement {
