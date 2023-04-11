@@ -32,7 +32,7 @@ import java.util.List;
 public class SearchFragment extends Fragment{
     //androidx.appcompat.widget.SearchView search_view;
     SettingList settingList;
-    private List<List> list;          // 데이터를 넣은 리스트변수
+    //private List<List> list;          // 데이터를 넣은 리스트변수
     Context context ;
     private  List<String> l_brand;
     private  List<String> l_name;
@@ -41,7 +41,7 @@ public class SearchFragment extends Fragment{
 
     private  List<String>l_id;
 
-    private ListView listView;          // 검색을 보여줄 리스트변수
+    //private ListView listView;          // 검색을 보여줄 리스트변수
 
     private GridView gridView;
     private EditText editSearch;        // 검색어를 입력할 Input 창
@@ -109,7 +109,7 @@ public class SearchFragment extends Fragment{
         context=container.getContext();
 
 // 리스트를 생성한다.
-        list = new ArrayList<List>();
+        //list = new ArrayList<List>();
         l_brand = new ArrayList<String>();
         l_name = new ArrayList<String>();
         l_price = new ArrayList<String>();
