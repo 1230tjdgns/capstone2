@@ -15,6 +15,9 @@
             android:name=".WebViewActivity"
             android:exported="false" />
         <activity
+            android:name=".rename"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
