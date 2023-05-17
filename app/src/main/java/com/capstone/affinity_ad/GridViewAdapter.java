@@ -72,12 +72,11 @@ class GridViewAdapter extends BaseAdapter {
                 public void run() {
                     try {
                         String l=g_items.getImg();
-                        int index = BitmapList.checkBitmap(l);
-                        if(index != -1) {
-                            bitmap = BitmapList.bitmaps.get(index);
+                        Bitmap temp = BitmapList.checkHash(l);
+                        if(temp != null) {
+                            bitmap = temp;
                         }
                         else {
-                            BitmapList.bitmapurls.add(l);
                             String[] l2=l.split("/");
 
                             Uri.Builder builder = new Uri.Builder()
@@ -91,16 +90,14 @@ class GridViewAdapter extends BaseAdapter {
                             Uri myUri = builder.build();
                             URL url = new URL(myUri.toString());
 
-                            // Web에서 이미지를 가져온 뒤
-                            // ImageView에 지정할 Bitmap을 만든다
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                            conn.setDoInput(true); // 서버로 부터 응답 수신
+                            conn.setDoInput(true);
                             conn.connect();
 
-                            InputStream is = conn.getInputStream(); // InputStream 값 가져오기
-                            bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                            InputStream is = conn.getInputStream();
+                            bitmap = BitmapFactory.decodeStream(is);
 
-                            BitmapList.bitmaps.add(bitmap);
+                            BitmapList.bitmaps.put(l,bitmap);
                         }
 
 
