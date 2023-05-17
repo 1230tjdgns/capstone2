@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 while(true) {
                     if (productLoadHandler.done) {
                         startActivity(i);
+                        finish();
                         break;
                     }
                 }
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         ProductLoadThread.start();
+
 
     }
 
