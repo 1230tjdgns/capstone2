@@ -72,7 +72,7 @@ class GridViewAdapter extends BaseAdapter {
                 public void run() {
                     try {
                         String l=g_items.getImg();
-                        Bitmap temp = BitmapList.checkHash(l);
+                        Bitmap temp = BitmapList.checkHash(g_items.getId());
                         if(temp != null) {
                             bitmap = temp;
                         }
@@ -97,7 +97,7 @@ class GridViewAdapter extends BaseAdapter {
                             InputStream is = conn.getInputStream();
                             bitmap = BitmapFactory.decodeStream(is);
 
-                            BitmapList.bitmaps.put(l,bitmap);
+                            BitmapList.bitmaps.put(g_items.getId(),bitmap);
                         }
 
 
