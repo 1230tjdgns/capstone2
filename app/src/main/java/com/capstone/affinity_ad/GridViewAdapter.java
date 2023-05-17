@@ -3,6 +3,8 @@ package com.capstone.affinity_ad;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 
 class GridViewAdapter extends BaseAdapter {
     ArrayList<gridItem> items = new ArrayList<gridItem>();
+    Bitmap bitmap;
+    BitmapList bitmapList;
 
     public void clearItem() {
         items = new ArrayList<gridItem>();
@@ -63,13 +67,64 @@ class GridViewAdapter extends BaseAdapter {
             ProdImageLoadThread th = new ProdImageLoadThread(g_items.getImg(), img);
 
 
-//            try {
-//                th.start();
-//                th.join();
-//            }
-//            catch(Exception e) {
-//
-//            }
+            Thread mThread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        String l=g_items.getImg();
+                        int index = BitmapList.checkBitmap(l);
+                        if(index != -1) {
+                            bitmap = BitmapList.bitmaps.get(index);
+                        }
+                        else {
+                            BitmapList.bitmapurls.add(l);
+                            String[] l2=l.split("/");
+
+                            Uri.Builder builder = new Uri.Builder()
+                                    .scheme("https")
+                                    .authority(l2[2])
+                                    .appendPath(l2[3])
+                                    .appendPath(l2[4])
+                                    .appendPath(l2[5])
+                                    ;
+
+                            Uri myUri = builder.build();
+                            URL url = new URL(myUri.toString());
+
+                            // Web에서 이미지를 가져온 뒤
+                            // ImageView에 지정할 Bitmap을 만든다
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true); // 서버로 부터 응답 수신
+                            conn.connect();
+
+                            InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                            bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+
+                            BitmapList.bitmaps.add(bitmap);
+                        }
+
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            mThread.start(); // Thread 실행
+
+            try {
+                mThread.join();
+
+                img.setImageBitmap(bitmap);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             brand.setText(g_items.getBrand());
             name.setText(g_items.getName());
@@ -83,7 +138,9 @@ class GridViewAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, g_items.getId(), Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(context, ProductActivity.class);
+                intent.putExtra("id",g_items.getId());
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 

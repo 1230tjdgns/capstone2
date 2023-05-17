@@ -56,12 +56,6 @@ public class HomeFragment extends Fragment {
     CircleAnimIndicator indicator;
 
     SettingList settingList;
-    private  List<String> l_brand;
-    private  List<String> l_name;
-    private  List<String> l_price;
-    private List<String> l_image;
-    private  List<String>l_id;
-
     List<String> brands;
 
     CategoryListAdapter categoryListAdapter;
@@ -94,13 +88,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void settingList(){
-        l_id.addAll(settingList.l_id);
-        l_brand.addAll(settingList.l_brand);
-        l_name.addAll(settingList.l_name);
-        l_price.addAll(settingList.l_price);
-        l_image.addAll(settingList.l_image);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,13 +95,6 @@ public class HomeFragment extends Fragment {
 
         View frag_view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        l_brand = new ArrayList<String>();
-        l_name = new ArrayList<String>();
-        l_price = new ArrayList<String>();
-        l_image = new ArrayList<String>();
-        l_id = new ArrayList<String>();
-
-        settingList();
 
         gv = (ExpandableHeightGridView)frag_view.findViewById(R.id.home_item_grid);
         adapter = new GridViewAdapter();
@@ -123,19 +103,18 @@ public class HomeFragment extends Fragment {
 
         bt_search = frag_view.findViewById(R.id.bt_home_search);
 
-        for(int i = 0 ; i < l_id.size() ; i++) {
-            adapter.addItem(new gridItem(l_id.get(i),l_image.get(i),l_brand.get(i), l_name.get(i), l_price.get(i)));
-            Log.d("TEST", l_image.get(i));
+        for(int i = 0 ; i < settingList.l_id.size() ; i++) {
+            adapter.addItem(new gridItem(settingList.l_id.get(i),settingList.l_image.get(i),settingList.l_brand.get(i), settingList.l_name.get(i), settingList.l_price.get(i)));
         }
         gv.setAdapter(adapter);
 
         categoryRecyclerView = frag_view.findViewById(R.id.category_list);
 
-        brands = l_brand.stream().distinct().collect(Collectors.toList());
+        brands = settingList.l_brand.stream().distinct().collect(Collectors.toList());
 
         brands.add(0, "All");
 
-        categoryListAdapter = new CategoryListAdapter(adapter, gv, l_brand, l_name, l_price , l_price, l_id);
+        categoryListAdapter = new CategoryListAdapter(adapter, gv, settingList.l_brand, settingList.l_name, settingList.l_price , settingList.l_image, settingList.l_id);
 
         categoryListAdapter.addList(brands);
 
