@@ -3,6 +3,8 @@ package com.capstone.affinity_ad;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 
 class GridViewAdapter extends BaseAdapter {
     ArrayList<gridItem> items = new ArrayList<gridItem>();
+    Bitmap bitmap;
+    BitmapList bitmapList;
 
     public void clearItem() {
         items = new ArrayList<gridItem>();
@@ -63,13 +67,61 @@ class GridViewAdapter extends BaseAdapter {
             ProdImageLoadThread th = new ProdImageLoadThread(g_items.getImg(), img);
 
 
-//            try {
-//                th.start();
-//                th.join();
-//            }
-//            catch(Exception e) {
-//
-//            }
+            Thread mThread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        String l=g_items.getImg();
+                        Bitmap temp = BitmapList.checkHash(g_items.getId());
+                        if(temp != null) {
+                            bitmap = temp;
+                        }
+                        else {
+                            String[] l2=l.split("/");
+
+                            Uri.Builder builder = new Uri.Builder()
+                                    .scheme("https")
+                                    .authority(l2[2])
+                                    .appendPath(l2[3])
+                                    .appendPath(l2[4])
+                                    .appendPath(l2[5])
+                                    ;
+
+                            Uri myUri = builder.build();
+                            URL url = new URL(myUri.toString());
+
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true);
+                            conn.connect();
+
+                            InputStream is = conn.getInputStream();
+                            bitmap = BitmapFactory.decodeStream(is);
+
+                            BitmapList.bitmaps.put(g_items.getId(),bitmap);
+                        }
+
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            mThread.start(); // Thread 실행
+
+            try {
+                mThread.join();
+
+                img.setImageBitmap(bitmap);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             brand.setText(g_items.getBrand());
             name.setText(g_items.getName());
@@ -83,7 +135,9 @@ class GridViewAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, g_items.getId(), Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(context, ProductActivity.class);
+                intent.putExtra("id",g_items.getId());
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 

@@ -32,16 +32,22 @@ import org.checkerframework.common.subtyping.qual.Bottom;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
-//    FragmentManager manager = getSupportFragmentManager();
-//    FragmentTransaction transaction = manager.beginTransaction();
-//    Bundle bundle = new Bundle();
-    //Context context=getApplicationContext();
+
     Fragment defaultFrag;
     BottomNavigationView nav_menu;
+    private long backpressedTime = 0;
 
-    ViewPager2 pager;
-    final static int page_num = 2;
+    @Override
+    public void onBackPressed() {
 
+        if (System.currentTimeMillis() > backpressedTime + 2000) {
+            backpressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        } else if (System.currentTimeMillis() <= backpressedTime + 2000) {
+            finish();
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         nav_menu.setSelectedItemId(R.id.home);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,defaultFrag).commitAllowingStateLoss();
+
 
         nav_menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -66,9 +73,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     case R.id.search: {
                         //new Fragment() 대신 이동 할 프래그 클래스 적기
-//                        bundle.putSerializable("list", settingList.getlist());
-//                        SearchFragment searchFragment=new SearchFragment();
-//                        searchFragment.setArguments(bundle);
+
                         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,new SearchFragment()).commit();
                         return true;
                     }
@@ -87,9 +92,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //홈 화면 상단에 검색 버튼을 위한, 프래그 내부에서 상위 엑티비티의 프레임 교체에 필요한 메소드
     public void replaceFragment(Fragment fragment) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.mainFrame, fragment).commit();
+
 
         nav_menu.setSelectedItemId(R.id.search);
     }
