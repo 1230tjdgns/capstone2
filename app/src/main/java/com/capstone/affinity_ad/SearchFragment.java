@@ -143,7 +143,7 @@ public class SearchFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "여기야 : "+l_id.get(position));
-                Intent intent =new Intent(getActivity(),WebViewActivity.class);
+                Intent intent =new Intent(getActivity(),ProductActivity.class);
                 intent.putExtra("id",l_id.get(position));
                 startActivity(intent);
             }

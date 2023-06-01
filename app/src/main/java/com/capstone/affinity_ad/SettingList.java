@@ -28,6 +28,7 @@ public class SettingList {
     static public  List<String> l_price;
     static public  List<String> l_image;
 
+    static public String A_image[];
     static public ProductLoadHandler productLoadHandler;
 
 
@@ -79,7 +80,7 @@ public class SettingList {
                 String str =jsonObject.getString("product_img");
                 String imagerep = str.replaceAll("[\\[\\]\\\\]","");
                 String[] imagelist=imagerep.split(",");
-
+                //A_image.
                 l_image.add(imagelist[0]);
 
             }
