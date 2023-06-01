@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
                 android:backgroundTint="#ffffff"
-                android:drawableRight="@drawable/ic_edit"
+                android:drawableRight="@drawable/ic_right"
                 android:text="약관 및 정책                                 "
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -105,7 +105,7 @@
                 android:backgroundTint="@color/white"
                 android:text="문의하기                                      "
                 android:layout_gravity="left"
-                android:drawableRight="@drawable/ic_edit"
+                android:drawableRight="@drawable/ic_right"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
     </LinearLayout>
@@ -120,7 +120,7 @@
                 android:backgroundTint="@color/white"
                 android:text="이 앱을 만든 사람                          "
                 android:layout_gravity="left"
-                android:drawableRight="@drawable/ic_edit"
+                android:drawableRight="@drawable/ic_right"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
         </LinearLayout>
